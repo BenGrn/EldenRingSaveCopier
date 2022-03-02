@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldenRingSaveCopy", "EldenRingSaveCopy\EldenRingSaveCopy.csproj", "{9E6EFDFB-B9BE-4102-8B3F-3FC4F59C1B96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E6EFDFB-B9BE-4102-8B3F-3FC4F59C1B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E6EFDFB-B9BE-4102-8B3F-3FC4F59C1B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E6EFDFB-B9BE-4102-8B3F-3FC4F59C1B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E6EFDFB-B9BE-4102-8B3F-3FC4F59C1B96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA3C3C21-D0E1-4AFC-AEB0-B364B4E877F4}
+	EndGlobalSection
+EndGlobal
