@@ -24,12 +24,7 @@ namespace EldenRingSaveCopy
             targetFile = new byte[0];
             sourceID = new byte[8];
             targetID = new byte[8];
-            SourceSlot = Slot.NoSelection;
-            TargetSlot = Slot.NoSelection;
         }
-
-        public Slot SourceSlot { get; set; }
-        public Slot TargetSlot { get; set; }
 
         public byte[] SourceFile {
             get => sourceFile;

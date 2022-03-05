@@ -56,7 +56,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Saves\Slot.cs" />
+    <Compile Include="Saves\Model\ISaveGame.cs" />
+    <Compile Include="Saves\Model\NullSaveGame.cs" />
+    <Compile Include="Saves\Model\SaveGame.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
