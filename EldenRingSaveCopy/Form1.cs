@@ -116,6 +116,7 @@ namespace EldenRingSaveCopy
         private void CheckButtonState()
         {
             copyButton.Text = "Copy";
+            additionalInfoLabel.Visible = false;
             if (_fileManager.SourceFile.Length > 0 && _fileManager.TargetFile.Length > 0 
                 && _fileManager.SourcePath != _fileManager.TargetPath &&
                 this.selectedSourceSave.Id != Guid.Empty && this.selectedTargetSave.Id != Guid.Empty)
@@ -228,11 +229,15 @@ namespace EldenRingSaveCopy
                 //Delete old backup file to avoid corrupt save error
                 File.Delete(_fileManager.TargetPath + ".bak");
 
+                this.targetSaveGames.RemoveAt(targetSave.Index);
+                this.targetSaveGames.Insert(sourceSave.Index, sourceSave);
+                toSaveSlot.SelectedIndex = targetSave.Index;
 
                 //Indicate successful copy
                 copyButton.Enabled = false;
                 copyButton.Text = "Complete";
                 copyButton.BackColor = Color.SeaGreen;
+                additionalInfoLabel.Visible = true;
             }
             catch (Exception _e)
             {
@@ -276,6 +281,11 @@ namespace EldenRingSaveCopy
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
         {
 
         }

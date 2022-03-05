@@ -45,6 +45,7 @@ namespace EldenRingSaveCopy
             this.label4 = new System.Windows.Forms.Label();
             this.toSaveSlot = new System.Windows.Forms.ComboBox();
             this.copyButton = new System.Windows.Forms.Button();
+            this.additionalInfoLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.titleBar.SuspendLayout();
             this.SuspendLayout();
@@ -231,12 +232,25 @@ namespace EldenRingSaveCopy
             this.copyButton.UseVisualStyleBackColor = false;
             this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
+            // additionalInfoLabel
+            // 
+            this.additionalInfoLabel.AutoSize = true;
+            this.additionalInfoLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.additionalInfoLabel.Location = new System.Drawing.Point(38, 678);
+            this.additionalInfoLabel.Name = "additionalInfoLabel";
+            this.additionalInfoLabel.Size = new System.Drawing.Size(375, 13);
+            this.additionalInfoLabel.TabIndex = 13;
+            this.additionalInfoLabel.Text = "Ensure the ER0000.bak file has been deleted from save folder prior to loading.";
+            this.additionalInfoLabel.Visible = false;
+            this.additionalInfoLabel.Click += new System.EventHandler(this.label5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             this.ClientSize = new System.Drawing.Size(450, 700);
+            this.Controls.Add(this.additionalInfoLabel);
             this.Controls.Add(this.copyButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.toSaveSlot);
@@ -280,6 +294,7 @@ namespace EldenRingSaveCopy
         private System.Windows.Forms.ComboBox toSaveSlot;
         private System.Windows.Forms.Button copyButton;
         private System.Windows.Forms.Label title;
+        private System.Windows.Forms.Label additionalInfoLabel;
     }
 }
 
