@@ -1,6 +1,6 @@
 # EldenRingSaveCopier
 
-This application helps migrate older (1.02~ to 1.03~) Elden Ring save files to newer versions.
+This application migrates characters from one Elden Ring save game to another. At time of testing this works for any version of release as long as the destination is at least the same version as the source or later.
 
 ## Installing
 
