@@ -241,7 +241,7 @@ namespace EldenRingSaveCopy
             this.copyButton.Name = "copyButton";
             this.copyButton.Size = new System.Drawing.Size(560, 54);
             this.copyButton.TabIndex = 12;
-            this.copyButton.Text = "Select Source and Destination files";
+            this.copyButton.Text = "Select Source and Destination file and characters";
             this.copyButton.UseVisualStyleBackColor = false;
             this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 

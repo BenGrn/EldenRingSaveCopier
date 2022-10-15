@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -11,8 +9,6 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Security.Cryptography;
 using EldenRingSaveCopy.Saves.Model;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
 
 namespace EldenRingSaveCopy
 {
@@ -159,8 +155,13 @@ namespace EldenRingSaveCopy
                 this.selectedSourceSave.Id != Guid.Empty && this.selectedTargetSave.Id != Guid.Empty)
             {
                 copyButton.Enabled = true;
-                copyButton.BackColor = Color.Gold;
-                copyButton.Text = "Copy Selected Character";
+                copyButton.BackColor = Color.Goldenrod;
+                copyButton.Text =
+                    "Copy source character "
+                    + (this.selectedSourceSave.CharacterName.Contains("Slot ") ? this.selectedSourceSave.CharacterName :
+                    this.selectedSourceSave.CharacterName.Split('\0')[0])
+                    + (this.selectedTargetSave.CharacterName.Contains("Slot ") ? " on destination file " + this.selectedTargetSave.CharacterName :
+                    " over destination character " + this.selectedTargetSave.CharacterName.Split('\0')[0]);
             }
             else
             {
