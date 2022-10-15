@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +18,10 @@ namespace EldenRingSaveCopy
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+
+        private const int MESSAGE_ERROR = 0;
+        private const int MESSAGE_INFO = 1;
+        private const int MESSAGE_SUCCESS = 2;
 
         private BindingList<ISaveGame> sourceSaveGames = new BindingList<ISaveGame>();
         private BindingList<ISaveGame> targetSaveGames = new BindingList<ISaveGame>();
@@ -46,13 +48,30 @@ namespace EldenRingSaveCopy
         public Form1()
         {
             InitializeComponent();
+            showAdditionalInfoMessage(MESSAGE_INFO, "Select Source and Destination files and characters");
+        }
+
+        // Tries to read the current windows user name and if it suceeds at it, it uses it in the default Elden Ring savefile location
+        private void setCurrentUserDirectory(ref OpenFileDialog currentDialog)
+        {
+            string nameDirectory = null;
+            try
+            {
+                nameDirectory = "C:\\Users\\" + Environment.UserName + "\\AppData\\Roaming\\EldenRing";
+                currentDialog.InitialDirectory = "C:\\Users\\MemoGaming\\AppData\\Roaming\\EldenRing";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void sourceFileBrowse(object sender, EventArgs e)
         {
             sourceSaveGames.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2";
+            setCurrentUserDirectory(ref openFileDialog);
+            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2|Elden Ring Coop Save File |ER0000.co2";
             DialogResult result = openFileDialog.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
@@ -71,10 +90,18 @@ namespace EldenRingSaveCopy
                             sourceSaveGames.Add(newSave);
                         }
                     }
+
+                    if(sourceSaveGames.Count > 0)
+                    {
+                        fromSaveSlot.SelectedIndex = 0;
+                        this.selectedSourceSave = (ISaveGame)fromSaveSlot.SelectedItem;
+                        showAdditionalInfoMessage(MESSAGE_INFO, "Source savegame file loaded correctly.");
+                    }
                 }
                 catch (IOException)
                 {
                     sourceFilePath.Text = "Failed to load";
+                    showAdditionalInfoMessage(MESSAGE_ERROR, "Source savegame file failed to load.");
                 }
             }
             CheckButtonState();
@@ -84,7 +111,8 @@ namespace EldenRingSaveCopy
         {
             targetSaveGames.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2";
+            setCurrentUserDirectory(ref openFileDialog);
+            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2|Elden Ring Coop Save File |ER0000.co2";
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -104,10 +132,17 @@ namespace EldenRingSaveCopy
                         }
                         targetSaveGames.Add(newSave);
                     }
+                    if (targetSaveGames.Count > 0)
+                    {
+                        toSaveSlot.SelectedIndex = 0;
+                        this.selectedTargetSave = (ISaveGame)toSaveSlot.SelectedItem;
+                        showAdditionalInfoMessage(MESSAGE_INFO, "Destination savegame file loaded correctly.");
+                    }
                 }
                 catch (IOException)
                 {
                     sourceFilePath.Text = "Failed to load";
+                    showAdditionalInfoMessage(MESSAGE_ERROR, "Destination savegame file failed to load.");
                 }
             }
             CheckButtonState();
@@ -115,22 +150,26 @@ namespace EldenRingSaveCopy
 
         private void CheckButtonState()
         {
-            copyButton.Text = "Copy";
-            additionalInfoLabel.Visible = false;
             if (_fileManager.SourceFile.Length > 0 && _fileManager.TargetFile.Length > 0 
                 && _fileManager.SourcePath != _fileManager.TargetPath &&
                 this.selectedSourceSave.Id != Guid.Empty && this.selectedTargetSave.Id != Guid.Empty)
             {
                 copyButton.Enabled = true;
-                copyButton.BackColor = Color.Lime;
+                copyButton.BackColor = Color.Goldenrod;
+                copyButton.Text =
+                    "Copy source character "
+                    + (this.selectedSourceSave.CharacterName.Contains("Slot ") ? this.selectedSourceSave.CharacterName :
+                    this.selectedSourceSave.CharacterName.Split('\0')[0])
+                    + (this.selectedTargetSave.CharacterName.Contains("Slot ") ? " on destination file " + this.selectedTargetSave.CharacterName :
+                    " over destination character " + this.selectedTargetSave.CharacterName.Split('\0')[0]);
             }
             else
             {
                 copyButton.Enabled = false;
-                copyButton.BackColor = Color.SeaGreen;
+                copyButton.BackColor = Color.DarkOrange;
+                copyButton.Text = "Select Source and Destination file and characters";
             }
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             titleBar.MouseDown += Form1_MouseDown;
@@ -221,8 +260,6 @@ namespace EldenRingSaveCopy
                     Array.Copy(md5.Hash, 0, newSave, SaveGame.SAVE_HEADERS_SECTION_START_INDEX - 0x10, 0x10);
                 }
 
-                
-
                 //Write temp file to target file
                 File.WriteAllBytes(_fileManager.TargetPath, newSave);
 
@@ -235,19 +272,40 @@ namespace EldenRingSaveCopy
 
                 //Indicate successful copy
                 copyButton.Enabled = false;
-                copyButton.Text = "Complete";
-                copyButton.BackColor = Color.SeaGreen;
-                additionalInfoLabel.Visible = true;
+                copyButton.Text = "Copy Successful!";
+                copyButton.BackColor = Color.Gold;
+                showAdditionalInfoMessage(MESSAGE_SUCCESS, "Ensure the ER0000.bak file has been deleted from save folder prior to loading.");
             }
             catch (Exception _e)
             {
                 copyButton.Enabled = false;
-                copyButton.Text = "Failed";
-                copyButton.BackColor = Color.DarkRed;
+                copyButton.Text = "Copy Failed!";
+                copyButton.BackColor = Color.DarkOrange;
                 byte[] err = Encoding.Default.GetBytes(_e.Message);
                 File.WriteAllBytes(_fileManager.TargetPath.Replace("ER0000.sl2", "Error.log"), err);
             }
             
+        }
+
+        private void showAdditionalInfoMessage(int type, string message)
+        {
+            additionalInfoLabel.Text = message;
+            switch (type)
+            {
+                case MESSAGE_ERROR:
+                    additionalInfoLabel.ForeColor = Color.DarkOrange;
+                    break;
+                case MESSAGE_INFO:
+                    additionalInfoLabel.ForeColor = Color.White;
+                    break;
+                case MESSAGE_SUCCESS:
+                    additionalInfoLabel.ForeColor = Color.Gold;
+                    break;
+                default:
+                    additionalInfoLabel.ForeColor= Color.White;
+                    break;
+
+            }
         }
 
         private void exitButtonClick(object sender, EventArgs e)
@@ -255,39 +313,5 @@ namespace EldenRingSaveCopy
             this.Close();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void sourceFilePath_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void titlePanel(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
