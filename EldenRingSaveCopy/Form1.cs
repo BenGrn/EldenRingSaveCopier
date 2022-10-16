@@ -58,7 +58,7 @@ namespace EldenRingSaveCopy
             try
             {
                 nameDirectory = "C:\\Users\\" + Environment.UserName + "\\AppData\\Roaming\\EldenRing";
-                currentDialog.InitialDirectory = "C:\\Users\\MemoGaming\\AppData\\Roaming\\EldenRing";
+                currentDialog.InitialDirectory = nameDirectory;
             }
             catch (Exception e)
             {
