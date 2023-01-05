@@ -71,7 +71,8 @@ namespace EldenRingSaveCopy
             sourceSaveGames.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             setCurrentUserDirectory(ref openFileDialog);
-            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2|Elden Ring Coop Save File |ER0000.co2";
+            openFileDialog.Filter = "All Elden Ring Save File Types|*.sl2;*.co2|"
+            + "Elden Ring Save File|ER0000.sl2|Elden Ring Coop Save File|ER0000.co2";
             DialogResult result = openFileDialog.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
@@ -112,7 +113,8 @@ namespace EldenRingSaveCopy
             targetSaveGames.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             setCurrentUserDirectory(ref openFileDialog);
-            openFileDialog.Filter = "Elden Ring Save File |ER0000.sl2|Elden Ring Coop Save File |ER0000.co2";
+            openFileDialog.Filter = "All Elden Ring Save File Types|*.sl2;*.co2|"
+            + "Elden Ring Save File|ER0000.sl2|Elden Ring Coop Save File|ER0000.co2";
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
