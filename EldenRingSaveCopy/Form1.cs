@@ -58,7 +58,7 @@ namespace EldenRingSaveCopy
             try
             {
                 nameDirectory = "C:\\Users\\" + Environment.UserName + "\\AppData\\Roaming\\EldenRing";
-                currentDialog.InitialDirectory = "C:\\Users\\MemoGaming\\AppData\\Roaming\\EldenRing";
+                currentDialog.InitialDirectory = nameDirectory;
             }
             catch (Exception e)
             {
@@ -265,6 +265,9 @@ namespace EldenRingSaveCopy
 
                 //Delete old backup file to avoid corrupt save error
                 File.Delete(_fileManager.TargetPath + ".bak");
+
+                //Copy working file to source file to ensure each character is written to target file in the event of multiple characters being copied.
+                Array.Copy(newSave, _fileManager.TargetFile, newSave.Length);
 
                 this.targetSaveGames.RemoveAt(targetSave.Index);
                 this.targetSaveGames.Insert(sourceSave.Index, sourceSave);
