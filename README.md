@@ -20,7 +20,7 @@ First, make a backup of your Elden Ring saves:
 Now, you can modify your save.
 
 1. Open the `EldenRingSaveCopy` application
-2. Drag the backup savegame file to the "Copy from" field
+2. Drag the backup savegame file (step 6 above) to the "Copy from" field
 3. Drag your Elden Ring savegame file (step 5 above) to the "Copy to" field
 4. Select a slot to copy from the "Copy from" field
 5. Select a slot to overwrite in the "Copy to" field
